@@ -1,8 +1,34 @@
-﻿@{
+﻿@model List<User>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <div>
+        @foreach (var user in Model)
+        {
+            <div class="item">
+                <h3>@user.Name</h3>
+                @user.Id
+                <h4>@user.DateOfBirth</h4>
+            </div>
+        }
+    </div>
+    <asp:ListBox runat="server" ID="Listbox1" SelectionMode="Multiple" Rows="5">
+
+        @foreach (var user in Model)
+        {
+            <asp:ListItem class="item" style='float:left;'>
+                <h3>@user.Name</h3>
+                @user.Id
+                <h4>@user.DateOfBirth</h4>
+            </asp:ListItem>
+        }
+        <asp:ListItem Selected="true">Option 1</asp:ListItem>
+        <asp:ListItem>Option 2</asp:ListItem>
+    </asp:ListBox>
 </div>

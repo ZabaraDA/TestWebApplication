@@ -4,6 +4,9 @@ using TestWebApplication.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace TestWebApplication.Controllers
 {
@@ -25,11 +28,14 @@ namespace TestWebApplication.Controllers
                 return new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
             }
         }
-
+        
         public IActionResult Index()
         {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+            var context = new ApplicationContext(optionsBuilder.Options);
             //var items = GetAllUsers();
-            return View();
+            return View(context.User.ToList());
         }
 
         public IActionResult Privacy()
